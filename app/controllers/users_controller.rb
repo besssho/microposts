@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update]
-  before_action :set_user, only: [:edit, :update]
+  before_action :check_user, only: [:edit, :update]
   
   def show
-    @user = User.find(params[:id])
+    set_user
   end
   
   def new
@@ -39,7 +39,10 @@ class UsersController < ApplicationController
   
   def set_user
     @user = User.find(params[:id])
-    redirect_to root_path unless @user == current_user
-      
-    end
   end
+  
+  def check_user
+    set_user 
+    redirect_to root_path flash[:danger] = "Access denied" unless @user == current_user
+  end
+end
