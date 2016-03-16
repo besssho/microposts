@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update]
   before_action :check_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update,:show]
   
   def show
-    set_user
   end
   
   def new
