@@ -23,10 +23,9 @@
       <% if @users.any? %>
         <ul class="users follow">
         <% @users.each do |user| %>
-         <%= link_to gravatar_for(user, size: 50) ,user %>
-         <span><%= link_to user.name , user %></span>
+         <p><%= link_to gravatar_for(user, size: 50) ,user %><%= link_to user.name, user %></p><br/><br/>
+         <% end %>
         </ul>
-      <% end %>
     </div>
     <% end %>
 </div>
