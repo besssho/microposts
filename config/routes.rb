@@ -9,8 +9,15 @@ Rails.application.routes.draw do
          get :followings,:followers
       end
    end
+   resources:microposts do
+      member do
+         post :fav
+      end
+   end
+   
    resources :users
    resources:sessions, only: [:new, :create, :destroy]
    resources :microposts
    resources :relationships, only: [:create,:destroy]
+   resources :favorites, only: [:create, :destroy]
 end

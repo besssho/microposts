@@ -14,11 +14,13 @@
     <div class="col-md-8">
       <h3><%= @title %></h3>
       <% if @users.any? %>
-        <ul class="users follow">
         <% @users.each do |user| %>
-         <p><%= link_to gravatar_for(user, size: 50) ,user %><%= link_to user.name, user %></p><br/><br/>
-         <% end %>
+        <ul class="users follow">
+          <li><%= link_to gravatar_for(user, size: 50),user  %></li>
+          <li><%= link_to user.name, user %></li>
+          <hr>
         </ul>
+        <% end %>
+    　<% end %>
     </div>
-    <% end %>
 </div>

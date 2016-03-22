@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
     validates :profile, length: {maximum:160}
     has_secure_password
     has_many :microposts
+    has_many :favorites
     
     has_many :following_relationships, class_name: "Relationship",
                                       foreign_key:"follower_id",
@@ -36,4 +37,7 @@ class User < ActiveRecord::Base
         followings.include?(other_user)
     end
     
+    def fav?(micropost)
+        favorites.exists? micropost: micropost
+    end
 end
