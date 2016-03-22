@@ -43,5 +43,5 @@ class User < ActiveRecord::Base
     
     def fav?(micropost)
         favorites.exists? micropost: micropost
-        following-followers
     end
+end
