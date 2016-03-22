@@ -8,16 +8,18 @@ class User < ActiveRecord::Base
     validates :profile, length: {maximum:160}
     has_secure_password
     has_many :microposts
+    has_many :favorites
     
     has_many :following_relationships, class_name: "Relationship",
                                       foreign_key:"follower_id",
                                       dependent: :destroy
-    has_many :following_users, through: :following_relationships, source: :followed
+    has_many :followings, through: :following_relationships, source: :followed
     
     has_many :follower_relationships, class_name:  "Relationship",
                                     foreign_key: "followed_id",
                                     dependent:   :destroy
-    has_many :follower_users, through: :follower_relationships, source: :follower
+    has_many :followers, through: :follower_relationships, source: :follower
+    
 
     # 他のユーザーをフォローする
     def follow(other_user)
@@ -32,10 +34,14 @@ class User < ActiveRecord::Base
     
     # あるユーザーをフォローしているかどうか？
     def following?(other_user)
-        following_users.include?(other_user)
+        followings.include?(other_user)
     end
     
     def feed_items
         Micropost.where(user_id: following_user_ids + [self.id])
     end
-end
+    
+    def fav?(micropost)
+        favorites.exists? micropost: micropost
+        following-followers
+    end

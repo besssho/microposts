@@ -8,16 +8,25 @@ class MicropostsController < ApplicationController
        redirect_to root_url
    else
        @feed_items = current_user.feed_items.includes(:user).order(created_at: :desc)
-       render 'static_page/home'
+       render 'static_pages/home'
    end
  end
  
  def destroy
-  @micropost = current_user. microposts.find_by{id: params[:id]}
+  @micropost = current_user.microposts.find_by(id: params[:id])
   return redirect_to root_url if @micropost.nil?
   @micropost.destroy
   flash[:success] = "Micropost deleted"
   redirect_to request.referrer || root_url
+ end
+ 
+ def fav
+    @micropost = Micropost.find(params[:id])
+    if @micropost.favorites.blank?
+      current_user.favorites.create(micropost: @micropost)
+    else
+      current_user.favorites.where(micropost: @micropost).destroy_all
+    end
  end
  
  private
