@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
     has_secure_password
     has_many :microposts
     has_many :favorites
+    has_many :favorite_microposts, through: :favorites, source: :micropost
     
     has_many :following_relationships, class_name: "Relationship",
                                       foreign_key:"follower_id",
@@ -38,10 +39,19 @@ class User < ActiveRecord::Base
     end
     
     def feed_items
-        Micropost.where(user_id: following_user_ids + [self.id])
+        Micropost.where(user_id: following_ids + [self.id])
     end
     
-    def fav?(micropost)
-        favorites.exists? micropost: micropost
+    def favorite?(micropost)
+        favorites.find_by(micropost_id: micropost.id)
     end
+    
+    def favo(micropost)
+        favorites.create(micropost_id: micropost.id)
+    end
+    
+    def unfavorite(micropost)
+        favorites.find_by(micropost_id: micropost.id).destroy
+    end
+    
 end

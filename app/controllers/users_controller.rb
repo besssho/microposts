@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update ,:followings,:followers]
   before_action :check_user, only: [:edit, :update]
-  before_action :set_user, only: [:show, :followings, :followers]
+  before_action :set_user, only: [:show, :followings, :followers, :favorite]
   
   def show
     @microposts = @user.microposts.order(created_at: :desc)
@@ -44,6 +44,14 @@ class UsersController < ApplicationController
     @users = @user.followers
     render 'show_follow'
   end
+  
+  def favorite
+    @title = 'Favorite Microposts'
+    @micropost = @user.microposts.build
+    @feed_microposts = @user.favorite_microposts
+    render 'show_favorite'
+  end
+    
   
   private
   
