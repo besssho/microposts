@@ -23,7 +23,7 @@ class MicropostsController < ApplicationController
  def fav
     @micropost = Micropost.find(params[:id])
     if @micropost.favorites.blank?
-      current_user.favorites.create(micropost: @micropost)
+      current_user.favorites.find_or_create_by(micropost: @micropost)
     else
       current_user.favorites.where(micropost: @micropost).destroy_all
     end
