@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
     end
     
     def favo(micropost)
-        favorites.create(micropost_id: micropost.id)
+        favorites.find_or_create_by(micropost_id: micropost.id)
     end
     
     def unfavorite(micropost)
